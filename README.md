@@ -32,3 +32,13 @@ posterior a isso, acessei o elemento da página desejado via método find
 
 RESUMO:
 Nesse desenvolvimento em Python, fiz uso da biblioteca Pandas - para lidar com dados em formato tabular -, biblioteca Requests - para realizar solicitações HTTP e obter dados online -, biblioteca BeautifulSoup - que me auxiliou na extração de informações de HTML/XML -, biblioteca os - para acessar variáveis de ambiente de forma segura -, e a biblioteca Psycopg2 - para tratar com banco de dados PostgreSQL, que é bem amigável e facilita todas as interações, desde a conexão até operações como consultas e inserções -.
+
+Obs.: Usei variáveis de ambiente para acessar o banco, então, para garantir a funcionalidade do código, será necessário informá-las, segue a estrutura que utilizei para armazenar os dados:
+
+Nome do arquivo: .env
+
+DATABASE="XXXXXXXXX"
+HOST="XXXXXXXXXXXXX"
+USER="XXXXXXXXXXXXX"
+PASSWORD="XXXXXXXXX"
+PORT="XXXXXXXXXXXXX"

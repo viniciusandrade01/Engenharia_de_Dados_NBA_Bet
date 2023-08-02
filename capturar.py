@@ -6,13 +6,6 @@ import psycopg2
 import logging
 from datetime import datetime
 
-# Define o formato do log
-#log_format = "%(asctime)s - %(levelname)s - %(message)s"
-#date_format = "%Y-%m-%d"
-
-# Cria o nome do arquivo de log com a data atual
-#log_filename = f"Log_{datetime.now().strftime('%Y_%m_%d')}.log"
-
 # Configura o logger
 logging.basicConfig(filename=f"Log_{datetime.now().strftime('%Y_%m_%d')}.log", 
                     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d__%H%M%S")
@@ -124,9 +117,6 @@ df = df.applymap(lambda x: str(x).replace(".", '0'))
 
 # Reseta os indexes da tabela
 df.reset_index(drop=True, inplace=True)
-
-#for col in df.columns:
-#    df[col] = modificando_tipo(df[col])
 
 # Gera um arquivo csv, que irei inserir no PostgreSQL
 df.to_csv("Dataset.csv", sep="\t", index=False, encoding = "utf-8")
