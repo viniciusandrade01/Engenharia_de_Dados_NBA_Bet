@@ -1,6 +1,6 @@
 # Web-Scraping-Datasets-Esportivo
 É notório que ETL é sempre visto na Engenharia de Dados. 
-Dessa forma, visando fixar, e exercitar, o conteúdo relacionado, farei uma extração de dados da fonte https://www.sports-reference.com/  - que por sinal, é uma fonte rica em informação, abordando dados de diversos esportes e ligas -, usando web scraping, tratarei os dados obtidos e armazenarei em um arquivo do formato csv.
+Dessa forma, visando fixar, e exercitar, o conteúdo relacionado, farei uma extração de dados da fonte https://www.sports-reference.com/ - que por sinal, é uma fonte rica em informação, abordando dados de diversos esportes e ligas -, usando web scraping, tratarei os dados obtidos - removendo dados 'sujos' e gerando uma 'padronização' - e armazenarei em um arquivo do formato csv, para posteriormente inserir no Banco de Dados PostgreSQL. Abaixo, os passos:
 
 Etapas:
 
@@ -8,6 +8,8 @@ Etapas:
     .Biblioteca Pandas: para manipular os dados em forma de tabela.
               Requests: para execução de requisições HTTP;
          BeautifulSoup: para extração de dados em arquivos HTML e XML;
+                    Os: para 'puxar'/acessar às variáveis de ambiente, oriundas do arquivo .env
+              Psycopg2: para manipular e usar o Banco de Dados, nesse caso, PostgreSQL.
 
 2) Coleta do ano para ser utilizado como referência para obtenção dos dados da temporada da NBA - que é o objeto de estudo.
     .Ano contendo 4 dígitos
@@ -23,7 +25,10 @@ posterior a isso, acessei o elemento da página desejado via método find
 
 6) Depois dos tratamentos necessários, gerei um arquivo .csv
 
-7) Com tudo já praticamente finalizado, agora inserirei o conteúdo do csv no Banco de Dados configurado.
+7) Com todos os tratamentos de dados já finalizados, agora inserirei o conteúdo do csv no Banco de Dados configurado.
+    .Os acessos a ele, ao banco, foram configurados usando variáveis de ambiente, arquivo .env
+
+8) Prontinho, os dados foram inseridos com sucesso ao Banco de Dados configurado, para visualizar, foi realizado um loop for para 'imprimir' todo o conteúdo inserido no banco.
 
 RESUMO:
-Foi utilizada a biblioteca requests - para executar requisições GET e obter o código HTML das páginas que queremos -, depois a BeautifulSoup - para extrair os dados que queremos destas páginas - e a Pandas - salvaremos esses dados em um Data Frame.
+Nesse desenvolvimento em Python, fiz uso da biblioteca Pandas - para lidar com dados em formato tabular -, biblioteca Requests - para realizar solicitações HTTP e obter dados online -, biblioteca BeautifulSoup - que me auxiliou na extração de informações de HTML/XML -, biblioteca os - para acessar variáveis de ambiente de forma segura -, e a biblioteca Psycopg2 - para tratar com banco de dados PostgreSQL, que é bem amigável e facilita todas as interações, desde a conexão até operações como consultas e inserções -.
