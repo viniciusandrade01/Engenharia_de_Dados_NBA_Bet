@@ -1,5 +1,5 @@
 # Web-Scraping-Datasets-Esportivo
-É notório que ETL é sempre visto na Engenharia de Dados. 
+É notório que processos ETL sempre são vistos no escopo da Engenharia de Dados. 
 Dessa forma, visando fixar, e exercitar, o conteúdo relacionado, farei uma extração de dados da fonte https://www.sports-reference.com/ - que por sinal, é uma fonte rica em informação, abordando dados de diversos esportes e ligas -, usando web scraping, tratarei os dados obtidos - removendo dados 'sujos' e gerando uma 'padronização' - e armazenarei em um arquivo do formato csv, para posteriormente inserir no Banco de Dados PostgreSQL. Abaixo, os passos:
 
 Etapas:
@@ -25,10 +25,13 @@ posterior a isso, acessei o elemento da página desejado via método find
 
 6) Depois dos tratamentos necessários, gerei um arquivo .csv
 
-7) Com todos os tratamentos de dados já finalizados, agora inserirei o conteúdo do csv no Banco de Dados configurado.
-    .Os acessos a ele, ao banco, foram configurados usando variáveis de ambiente, arquivo .env
+7) Com todos os tratamentos de dados já finalizados, agora inserirei o conteúdo do csv no Banco de Dados configurado, executando os scripts necessários
+    .Os acessos a ele, ao banco, foram configurados usando variáveis de ambiente, arquivo .env (um conteúdo exemplo estará no final desse arquivo)
+    .Além das configurações de acesso, faremos duas execuções de scripts no sql
+        1°) A partir da leitura do conteúdo do arquivo datanba.sql, para criação da tabela
+        2°) Dentro do próprio código python (capturar.py), fazendo uso de um loop.
 
-8) Prontinho, os dados foram inseridos com sucesso ao Banco de Dados configurado, para visualizar, foi realizado um loop for para 'imprimir' todo o conteúdo inserido no banco.
+8) Prontinho, os dados foram inseridos com sucesso ao Banco de Dados configurado, para facilitar a visualização dos dados inseridos, criei um loop for para 'imprimir' todo o conteúdo inserido no banco.
 
 RESUMO:
 Nesse desenvolvimento em Python, fiz uso da biblioteca Pandas - para lidar com dados em formato tabular -, biblioteca Requests - para realizar solicitações HTTP e obter dados online -, biblioteca BeautifulSoup - que me auxiliou na extração de informações de HTML/XML -, biblioteca os - para acessar variáveis de ambiente de forma segura -, e a biblioteca Psycopg2 - para tratar com banco de dados PostgreSQL, que é bem amigável e facilita todas as interações, desde a conexão até operações como consultas e inserções -.

@@ -17,49 +17,18 @@ conn = psycopg2.connect(
     password = os.getenv("PASSWORD"),
     port = os.getenv("PORT")
 )
-logging.info("BD acessado com sucesso!") if conn.status == 1 else logging.error("Falha ao acessar o BD.")
+logging.info("BD conectado com sucesso!") if conn.status == 1 else logging.error("Falha ao conectar-se ao BD.")
 
 def usando_banco(df: pd.DataFrame):
     # Criação de um cursor para executar comandos SQL
     cur = conn.cursor()
     
-    # Defina a instrução SQL para criar a tabela
-    create_table_query = """
-    CREATE TABLE IF NOT EXISTS data_nba (
-        Rk INT,
-        Player VARCHAR(50),
-        Pos VARCHAR(50),
-        Age INT,
-        Tm VARCHAR(50),
-        Gg INT,
-        Gs INT,
-        Mp INT,
-        Fg INT,
-        Fga INT,
-        Fgp INT,
-        P3 INT,
-        P3a INT,
-        P3p INT,
-        P2 INT,
-        P2a INT,
-        P2p INT,
-        Efgp INT,
-        Ft INT,
-        Fta INT,
-        Ftp INT,
-        Orb INT,
-        Drb INT,
-        Trb INT,
-        Ast INT,
-        Stl INT,
-        Blk INT,
-        Tov INT,
-        Pf INT,
-        Pts INT
-    );
-    """
-    # Execute a instrução SQL
-    cur.execute(create_table_query)
+    # Pegando o nome do primeiro arquivo sql encontrado no diretório e 'lendo' o arquivo
+    with open([arquivo for arquivo in os.listdir(os.getcwd()) if arquivo.endswith(".sql")][0], 'r') as sql_file:
+        sql_script = sql_file.read()
+
+    # Executando a instrução SQL defina para criação da tabela
+    cur.execute(sql_script)
 
     # Importação dos dados do DataFrame para a tabela no PostgreSQL
     for index, row in df.iterrows():
@@ -73,24 +42,40 @@ def usando_banco(df: pd.DataFrame):
     logging.info("Dados carregados com sucesso!")
     
     # Execute uma consulta para selecionar todos os valores da tabela
-    select_query = "SELECT * FROM data_nba;"
-    cur.execute(select_query)
+    cur.execute("SELECT * FROM data_nba;")
 
     # Recupere os resultados da consulta
     results = cur.fetchall()
 
-    # Exiba os resultados inseridos no Banco de Dados
-    for row in results:
-        print(row)
+    # Desabilite para visualizar os resultados inseridos no Banco de Dados
+    #for row in results:
+    #    print(row)
 
     # Fechando o cursor e a conexão
     cur.close()
     conn.close()
 
 while True:
+    # Solicitação do parâmetro referencial
     year = input("Digite o ano desejado (exemplo: 2018): ")
     if not len(year) != 4:
         break
+    
+# Solicitação do nome do diretório e verificação se há valor no diretório
+diretorio = input("Digite o nome do diretório para armazenar o csv gerado (exemplo: Coleta): ")
+diretorio = diretorio or "Coleta"
+logging.info("Diretório destino informado com sucesso!")
+logging.info("Obs.: Caso não tenha sido preenchido, o nome padrão ('Coleta') será adotado")
+
+# Solicitação do nome do arquivo e verificação se há valor no arquivo
+arquivo = input(f"Digite o nome para o arquivo csv gerado (exemplo: NBA_{year}): ")
+arquivo = f"NBA_{year}.csv" if len(arquivo) == 0 else f"{arquivo}.csv"
+logging.info("Nome do arquivo gerado informado com sucesso!")
+logging.info("Obs.: Caso não tenha sido preenchido, o nome padrão ('NBA_{year}') será adotado")
+
+# Verificar se o diretório existe, e se não existir, criá-lo
+if not os.path.exists(diretorio):
+    os.makedirs(diretorio)
 
 req = rq.get(f'https://www.basketball-reference.com/leagues/NBA_{year}_totals.html')
 
@@ -115,11 +100,14 @@ df = df.drop(index=non_numeric)
 # Troque os pontos ("." por 0) da tabela
 df = df.applymap(lambda x: str(x).replace(".", '0'))
 
+# Remove linhas duplicadas + inplace
+df.drop_duplicates(inplace=True)
+
 # Reseta os indexes da tabela
 df.reset_index(drop=True, inplace=True)
 
 # Gera um arquivo csv, que irei inserir no PostgreSQL
-df.to_csv("Dataset.csv", sep="\t", index=False, encoding = "utf-8")
+df.to_csv(os.path.join(diretorio, arquivo), sep="\t", index=False, encoding = "utf-8")
 logging.info("Arquivo tratado gerado com sucesso!!")
 
 # Acessa função para utilizar o Banco de Dados
