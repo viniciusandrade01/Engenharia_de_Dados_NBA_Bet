@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Teco\Documents\Engenharia de Dados\Web-Scraping-Datasets-Esportivo\.venv"
+VIRTUAL_ENV="C:\Users\Teco\Documents\Engenharia de Dados\Engenharia_de_Dados_NBA_Bet\.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

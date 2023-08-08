@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\Teco\Documents\Engenharia de Dados\Web-Scraping-Datasets-Esportivo\.venv
+set VIRTUAL_ENV=C:\Users\Teco\Documents\Engenharia de Dados\Engenharia_de_Dados_NBA_Bet\.venv
 
 if not defined PROMPT set PROMPT=$P$G
 
